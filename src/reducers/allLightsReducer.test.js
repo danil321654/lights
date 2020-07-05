@@ -6,18 +6,22 @@ describe("big reducer test", () => {
       type: "ADD_LIGHT",
       color: "red"
     });
-    expect(firstState.lights).toEqual([{id: 0, color: "red", isTurnedOn: false}]);
+    expect(firstState.lights).toEqual([
+      ...initialState.lights,
+      {id: firstState.lights.length - 1, color: "red", isTurnedOn: false}
+    ]);
     let secondState = allLightsReducer(firstState, {
       type: "ADD_LIGHT",
       color: "blue"
     });
-    expect(secondState.lights).toEqual([{id: 0, color: "red", isTurnedOn: false},{id: 1, color: "blue", isTurnedOn: false}]);
+    expect(secondState.lights).toEqual([
+      ...firstState.lights,
+      {id: secondState.lights.length - 1, color: "blue", isTurnedOn: false}
+    ]);
     let thirdState = allLightsReducer(firstState, {
       type: "REMOVE_LIGHT",
-      id: 1
+      id: secondState.lights.length - 1
     });
     expect(thirdState.lights).toEqual(firstState.lights);
-
   });
-
 });
